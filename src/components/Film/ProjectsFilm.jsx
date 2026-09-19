@@ -6,36 +6,48 @@ import { ProjectCardVisual } from '../Projects/ProjectCardVisual';
 export function ProjectsFilm({ progress, mousePos }) {
   const [inspectedProject, setInspectedProject] = useState(null);
 
-  // Scene 04 active range: 0.68 to 0.92
-  const isActive = progress >= 0.68 && progress <= 0.92;
+  // Scene 04 active range: 0.70 to 0.92
+  const isActive = progress >= 0.70 && progress < 0.92;
 
-  // 4 Projects evenly spaced
+  // 4 Projects cleanly partitioned
   const projectRanges = [
-    { id: 'curatrack', center: 0.72, index: 0 },
-    { id: 'finbud', center: 0.77, index: 1 },
-    { id: 'safetysense', center: 0.82, index: 2 },
-    { id: 'ecommerce', center: 0.87, index: 3 },
+    { id: 'curatrack', start: 0.70, end: 0.755, index: 0 },
+    { id: 'finbud', start: 0.755, end: 0.81, index: 1 },
+    { id: 'safetysense', start: 0.81, end: 0.865, index: 2 },
+    { id: 'ecommerce', start: 0.865, end: 0.92, index: 3 },
   ];
 
-  // Mouse parallax
   const px = mousePos.x * 15;
   const py = mousePos.y * 10;
 
   // Scene overall opacity based on entry and exit
   let sceneOpacity = 0;
-  if (progress >= 0.68 && progress < 0.70) {
-    sceneOpacity = (progress - 0.68) / 0.02;
-  } else if (progress >= 0.70 && progress <= 0.90) {
+  if (progress >= 0.70 && progress < 0.72) {
+    sceneOpacity = (progress - 0.70) / 0.02;
+  } else if (progress >= 0.72 && progress <= 0.90) {
     sceneOpacity = 1;
   } else if (progress > 0.90 && progress <= 0.92) {
-    sceneOpacity = 1 - (progress - 0.90) / 0.02;
+    sceneOpacity = Math.max(0, 1 - (progress - 0.90) / 0.02);
   }
 
-  // Active project index for HUD telemetry
-  let activeProjIdx = 1;
-  if (progress >= 0.84) activeProjIdx = 4;
-  else if (progress >= 0.79) activeProjIdx = 3;
-  else if (progress >= 0.74) activeProjIdx = 2;
+  // Find currently active project cleanly
+  const activeProjObj = projectRanges.find(p => progress >= p.start && progress < p.end) || projectRanges[0];
+  const activeProj = projects[activeProjObj.index];
+
+  // In-place opacity/transform for current project
+  let projOpacity = 1;
+  let projTranslateY = 0;
+  if (activeProjObj) {
+    const span = activeProjObj.end - activeProjObj.start;
+    const local = (progress - activeProjObj.start) / span;
+    if (local < 0.15) {
+      projOpacity = local / 0.15;
+      projTranslateY = (1 - projOpacity) * 20;
+    } else if (local > 0.85) {
+      projOpacity = Math.max(0, (1 - local) / 0.15);
+      projTranslateY = (1 - projOpacity) * -20;
+    }
+  }
 
   return (
     <div
@@ -43,7 +55,7 @@ export function ProjectsFilm({ progress, mousePos }) {
       style={{
         opacity: sceneOpacity,
         pointerEvents: isActive ? 'auto' : 'none',
-        visibility: isActive ? 'visible' : 'hidden',
+        visibility: isActive && sceneOpacity > 0 ? 'visible' : 'hidden',
       }}
     >
       {/* Chapter HUD Indicator */}
@@ -57,87 +69,74 @@ export function ProjectsFilm({ progress, mousePos }) {
           <Terminal size={12} className="text-accent" />
           <span>VERIFIED GITHUB ARTIFACTS</span>
           <span className="hud-divider">·</span>
-          <span>STAGE [0{activeProjIdx} / 04]</span>
+          <span>STAGE [0{activeProjObj.index + 1} / 04]</span>
         </div>
       </div>
 
-      {/* 3D SPATIAL GALLERY OF PROJECTS */}
-      <div 
-        className="projects-spatial-track"
-        style={{
-          transform: `translate3d(${px}px, ${py}px, 0)`,
-        }}
-      >
-        {projectRanges.map((pRange) => {
-          const proj = projects[pRange.index];
-          if (!proj) return null;
+      {/* SINGLE CLEAN PROJECT MONOLITH (Zero card overlap) */}
+      {activeProj && (
+        <div 
+          className="projects-spatial-track"
+          style={{
+            transform: `translate3d(${px}px, ${py}px, 0)`,
+          }}
+        >
+          <article
+            className="spatial-project-monolith dominant-project"
+            onClick={() => setInspectedProject(activeProj)}
+            style={{
+              opacity: projOpacity,
+              transform: `translate3d(0, ${projTranslateY}px, 0)`,
+              transition: 'opacity 0.15s ease-out, transform 0.15s ease-out',
+              '--accent-color': activeProj.color,
+            }}
+            data-cursor="EXPAND"
+          >
+            <div className="monolith-frame-glow" />
 
-          const dist = progress - pRange.center;
+            <div className="monolith-header">
+              <div className="monolith-repo-tag">
+                <Github size={13} />
+                <span>{activeProj.repoName}</span>
+              </div>
+              <div className="monolith-category-badge">{activeProj.category}</div>
+            </div>
 
-          const projZ = -dist * 2800;
-          const projScale = Math.max(0.6, 1 - Math.abs(dist) * 5);
-          const projOpacity = Math.max(0, 1 - Math.abs(dist) * 10);
-          const isDominant = Math.abs(dist) < 0.035;
+            <div className="monolith-title-box">
+              <span className="monolith-number">0{activeProjObj.index + 1} // REPOSITORY</span>
+              <h3 className="monolith-project-title">{activeProj.title}</h3>
+              <p className="monolith-subtitle">{activeProj.subtitle}</p>
+            </div>
 
-          return (
-            <article
-              key={proj.id}
-              className={`spatial-project-monolith ${isDominant ? 'dominant-project' : ''}`}
-              onClick={() => setInspectedProject(proj)}
-              style={{
-                transform: `perspective(1200px) translate3d(0, 0, ${projZ}px) scale(${projScale})`,
-                opacity: projOpacity,
-                pointerEvents: isDominant ? 'auto' : 'none',
-                '--accent-color': proj.color,
-              }}
-              data-cursor="EXPAND"
-            >
-              <div className="monolith-frame-glow" />
+            <div className="monolith-ui-viewport">
+              <ProjectCardVisual projectId={activeProj.id} />
+            </div>
 
-              <div className="monolith-header">
-                <div className="monolith-repo-tag">
-                  <Github size={13} />
-                  <span>{proj.repoName}</span>
-                </div>
-                <div className="monolith-category-badge">{proj.category}</div>
+            <div className="monolith-footer-row">
+              <div className="monolith-tech-tags">
+                {activeProj.technologies.slice(0, 4).map((tech) => (
+                  <span key={tech} className="monolith-tech-chip">{tech}</span>
+                ))}
+                {activeProj.technologies.length > 4 && (
+                  <span className="monolith-tech-more">+{activeProj.technologies.length - 4}</span>
+                )}
               </div>
 
-              <div className="monolith-title-box">
-                <span className="monolith-number">0{pRange.index + 1} // REPOSITORY</span>
-                <h3 className="monolith-project-title">{proj.title}</h3>
-                <p className="monolith-subtitle">{proj.subtitle}</p>
-              </div>
-
-              <div className="monolith-ui-viewport">
-                <ProjectCardVisual projectId={proj.id} />
-              </div>
-
-              <div className="monolith-footer-row">
-                <div className="monolith-tech-tags">
-                  {proj.technologies.slice(0, 4).map((tech) => (
-                    <span key={tech} className="monolith-tech-chip">{tech}</span>
-                  ))}
-                  {proj.technologies.length > 4 && (
-                    <span className="monolith-tech-more">+{proj.technologies.length - 4}</span>
-                  )}
-                </div>
-
-                <button 
-                  className="monolith-inspect-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setInspectedProject(proj);
-                  }}
-                  data-cursor="INSPECT"
-                >
-                  <span>INSPECT DETAILS</span>
-                  <ArrowUpRight size={14} />
-                </button>
-              </div>
-            </article>
-          );
-        })}
-      </div>
+              <button 
+                className="monolith-inspect-btn"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setInspectedProject(activeProj);
+                }}
+                data-cursor="INSPECT"
+              >
+                <span>INSPECT DETAILS</span>
+                <ArrowUpRight size={14} />
+              </button>
+            </div>
+          </article>
+        </div>
+      )}
 
       {/* IN-WORLD PROJECT DEEP INSPECTION */}
       {inspectedProject && (
