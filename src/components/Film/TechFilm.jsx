@@ -5,18 +5,17 @@ import { skillsData } from '../../data/skills';
 export function TechFilm({ progress, mousePos }) {
   const [activeNode, setActiveNode] = useState(skillsData[0]);
 
-  // Scene 02 active range: 0.20 to 0.52
-  const isActive = progress >= 0.20 && progress <= 0.52;
+  // Scene 02 active range: 0.18 to 0.46
+  const isActive = progress >= 0.18 && progress <= 0.46;
 
-  // The 4 spatial clusters spaced with generous breathing room
+  // The 4 spatial clusters spaced continuously without dead zones
   const clusters = [
     {
       id: 'backend',
       index: '01',
       title: 'BACKEND ARCHITECTURE',
       subtitle: 'DISTRIBUTED SERVICES & DATA ENGINES',
-      center: 0.28,
-      range: [0.24, 0.32],
+      center: 0.24,
       techs: ['Java', 'Spring Boot', 'Python', 'FastAPI', 'PostgreSQL', 'REST APIs', 'Git'],
       coords: 'LOC: [Z: -140m · SEC: 01-BE]',
       icon: Server,
@@ -26,8 +25,7 @@ export function TechFilm({ progress, mousePos }) {
       index: '02',
       title: 'INTELLIGENT SYSTEMS',
       subtitle: 'MACHINE LEARNING & COMPUTER VISION',
-      center: 0.34,
-      range: [0.30, 0.38],
+      center: 0.30,
       techs: ['Machine Learning', 'Computer Vision', 'YOLO', 'PyTorch', 'OpenCV'],
       coords: 'LOC: [Z: -300m · SEC: 02-AI]',
       icon: Eye,
@@ -37,8 +35,7 @@ export function TechFilm({ progress, mousePos }) {
       index: '03',
       title: 'IoT & EMBEDDED MATRIX',
       subtitle: 'HARDWARE SENSING & REAL-TIME STREAMS',
-      center: 0.40,
-      range: [0.36, 0.44],
+      center: 0.36,
       techs: ['Arduino', 'Sensors', 'Embedded Systems'],
       coords: 'LOC: [Z: -460m · SEC: 03-IOT]',
       icon: Radio,
@@ -48,33 +45,32 @@ export function TechFilm({ progress, mousePos }) {
       index: '04',
       title: 'CLIENT & SPATIAL GRAPHICS',
       subtitle: 'REACTIVE INTERFACES & WEBGL ENGINES',
-      center: 0.46,
-      range: [0.42, 0.50],
+      center: 0.42,
       techs: ['React', 'JavaScript', 'Three.js'],
       coords: 'LOC: [Z: -620m · SEC: 04-FE]',
       icon: Globe,
     },
   ];
 
-  // Mouse parallax
-  const px = mousePos.x * 20;
-  const py = mousePos.y * 15;
+  // Mouse parallax (light)
+  const px = mousePos.x * 15;
+  const py = mousePos.y * 10;
 
   // Scene overall opacity based on entry and exit
   let sceneOpacity = 0;
-  if (progress >= 0.20 && progress < 0.24) {
-    sceneOpacity = (progress - 0.20) / 0.04;
-  } else if (progress >= 0.24 && progress <= 0.49) {
+  if (progress >= 0.18 && progress < 0.22) {
+    sceneOpacity = (progress - 0.18) / 0.04;
+  } else if (progress >= 0.22 && progress <= 0.44) {
     sceneOpacity = 1;
-  } else if (progress > 0.49 && progress <= 0.52) {
-    sceneOpacity = 1 - (progress - 0.49) / 0.03;
+  } else if (progress > 0.44 && progress <= 0.46) {
+    sceneOpacity = 1 - (progress - 0.44) / 0.02;
   }
 
-  // Find active cluster index for HUD telemetry
+  // Active cluster index for HUD telemetry
   let activeClusterIndex = 1;
-  if (progress >= 0.43) activeClusterIndex = 4;
-  else if (progress >= 0.37) activeClusterIndex = 3;
-  else if (progress >= 0.31) activeClusterIndex = 2;
+  if (progress >= 0.39) activeClusterIndex = 4;
+  else if (progress >= 0.33) activeClusterIndex = 3;
+  else if (progress >= 0.27) activeClusterIndex = 2;
 
   return (
     <div
@@ -89,7 +85,7 @@ export function TechFilm({ progress, mousePos }) {
       <div 
         className="tech-matrix-grid"
         style={{
-          transform: `perspective(1000px) rotateX(65deg) translate3d(${px * 0.2}px, ${(progress - 0.20) * 800}px, 0)`,
+          transform: `perspective(1000px) rotateX(65deg) translate3d(${px * 0.2}px, ${(progress - 0.18) * 600}px, 0)`,
         }}
       />
 
@@ -104,7 +100,7 @@ export function TechFilm({ progress, mousePos }) {
           <div className="tech-hud-telemetry">
             <span>TRAJECTORY: DOLLY_FORWARD</span>
             <span className="hud-divider">·</span>
-            <span>VELOCITY: 24 km/s</span>
+            <span>VELOCITY: 32 km/s</span>
             <span className="hud-divider">·</span>
             <span className="tech-active-cluster">CLUSTER 0{activeClusterIndex} // 04</span>
           </div>
@@ -119,15 +115,13 @@ export function TechFilm({ progress, mousePos }) {
         }}
       >
         {clusters.map((cluster) => {
-          // Distance in progress units from camera focal point
           const dist = progress - cluster.center;
           
-          // Smoother, heavier non-linear curve
-          const clusterZ = -dist * 6000;
-          const clusterScale = Math.max(0.4, 1 - Math.abs(dist) * 12);
-          const clusterOpacity = Math.max(0, 1 - Math.abs(dist) * 16);
-          const clusterBlur = Math.abs(dist) > 0.03 ? (Math.abs(dist) - 0.03) * 350 : 0;
-          const isDominant = Math.abs(dist) < 0.035;
+          // Silky smooth translation without heavy CSS blur repaints
+          const clusterZ = -dist * 2800;
+          const clusterScale = Math.max(0.6, 1 - Math.abs(dist) * 5);
+          const clusterOpacity = Math.max(0, 1 - Math.abs(dist) * 10);
+          const isDominant = Math.abs(dist) < 0.04;
 
           const IconComp = cluster.icon;
 
@@ -138,11 +132,9 @@ export function TechFilm({ progress, mousePos }) {
               style={{
                 transform: `perspective(1200px) translate3d(0, 0, ${clusterZ}px) scale(${clusterScale})`,
                 opacity: clusterOpacity,
-                filter: clusterBlur > 0 ? `blur(${clusterBlur}px)` : 'none',
                 pointerEvents: isDominant ? 'auto' : 'none',
               }}
             >
-              {/* Cluster Architectural Backdrop Box */}
               <div className="cluster-frame-border" />
               
               <div className="cluster-meta-bar">
@@ -156,7 +148,6 @@ export function TechFilm({ progress, mousePos }) {
               <h3 className="cluster-main-title">{cluster.title}</h3>
               <p className="cluster-subtitle">{cluster.subtitle}</p>
 
-              {/* Physical Floating Technology Nodes */}
               <div className="cluster-tech-nodes-cloud">
                 {cluster.techs.map((techName, tIdx) => {
                   const matchingData = skillsData.find((n) => n.name.toLowerCase() === techName.toLowerCase()) || {
@@ -167,8 +158,7 @@ export function TechFilm({ progress, mousePos }) {
                   };
 
                   const isSelected = activeNode?.name === techName;
-                  const nodeDepthZ = ((tIdx % 3) - 1) * 30;
-                  const nodeY = ((tIdx % 2) === 0 ? -1 : 1) * (tIdx * 3);
+                  const nodeDepthZ = ((tIdx % 3) - 1) * 20;
 
                   return (
                     <button
@@ -176,7 +166,7 @@ export function TechFilm({ progress, mousePos }) {
                       className={`spatial-tech-node ${isSelected ? 'node-active' : ''}`}
                       onClick={() => setActiveNode(matchingData)}
                       style={{
-                        transform: `translate3d(0, ${nodeY}px, ${nodeDepthZ}px)`,
+                        transform: `translate3d(0, 0, ${nodeDepthZ}px)`,
                       }}
                       data-cursor="INSPECT"
                     >

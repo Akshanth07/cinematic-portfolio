@@ -6,36 +6,36 @@ import { ProjectCardVisual } from '../Projects/ProjectCardVisual';
 export function ProjectsFilm({ progress, mousePos }) {
   const [inspectedProject, setInspectedProject] = useState(null);
 
-  // Scene 04 active range: 0.72 to 0.95
-  const isActive = progress >= 0.72 && progress <= 0.95;
+  // Scene 04 active range: 0.68 to 0.92
+  const isActive = progress >= 0.68 && progress <= 0.92;
 
-  // 4 Projects with generous breathing room
+  // 4 Projects evenly spaced
   const projectRanges = [
-    { id: 'curatrack', center: 0.755, index: 0 },
-    { id: 'finbud', center: 0.805, index: 1 },
-    { id: 'safetysense', center: 0.855, index: 2 },
-    { id: 'ecommerce', center: 0.905, index: 3 },
+    { id: 'curatrack', center: 0.72, index: 0 },
+    { id: 'finbud', center: 0.77, index: 1 },
+    { id: 'safetysense', center: 0.82, index: 2 },
+    { id: 'ecommerce', center: 0.87, index: 3 },
   ];
 
   // Mouse parallax
-  const px = mousePos.x * 18;
-  const py = mousePos.y * 12;
+  const px = mousePos.x * 15;
+  const py = mousePos.y * 10;
 
   // Scene overall opacity based on entry and exit
   let sceneOpacity = 0;
-  if (progress >= 0.72 && progress < 0.74) {
-    sceneOpacity = (progress - 0.72) / 0.02;
-  } else if (progress >= 0.74 && progress <= 0.93) {
+  if (progress >= 0.68 && progress < 0.70) {
+    sceneOpacity = (progress - 0.68) / 0.02;
+  } else if (progress >= 0.70 && progress <= 0.90) {
     sceneOpacity = 1;
-  } else if (progress > 0.93 && progress <= 0.95) {
-    sceneOpacity = 1 - (progress - 0.93) / 0.02;
+  } else if (progress > 0.90 && progress <= 0.92) {
+    sceneOpacity = 1 - (progress - 0.90) / 0.02;
   }
 
   // Active project index for HUD telemetry
   let activeProjIdx = 1;
-  if (progress >= 0.88) activeProjIdx = 4;
-  else if (progress >= 0.83) activeProjIdx = 3;
-  else if (progress >= 0.78) activeProjIdx = 2;
+  if (progress >= 0.84) activeProjIdx = 4;
+  else if (progress >= 0.79) activeProjIdx = 3;
+  else if (progress >= 0.74) activeProjIdx = 2;
 
   return (
     <div
@@ -72,14 +72,12 @@ export function ProjectsFilm({ progress, mousePos }) {
           const proj = projects[pRange.index];
           if (!proj) return null;
 
-          const dist = progress - pRange.center; // distance from focal center
+          const dist = progress - pRange.center;
 
-          // 3D positioning along the Z-axis
-          const projZ = -dist * 6500;
-          const projScale = Math.max(0.35, 1 - Math.abs(dist) * 12);
-          const projOpacity = Math.max(0, 1 - Math.abs(dist) * 16);
-          const projBlur = Math.abs(dist) > 0.025 ? (Math.abs(dist) - 0.025) * 350 : 0;
-          const isDominant = Math.abs(dist) < 0.03;
+          const projZ = -dist * 2800;
+          const projScale = Math.max(0.6, 1 - Math.abs(dist) * 5);
+          const projOpacity = Math.max(0, 1 - Math.abs(dist) * 10);
+          const isDominant = Math.abs(dist) < 0.035;
 
           return (
             <article
@@ -89,7 +87,6 @@ export function ProjectsFilm({ progress, mousePos }) {
               style={{
                 transform: `perspective(1200px) translate3d(0, 0, ${projZ}px) scale(${projScale})`,
                 opacity: projOpacity,
-                filter: projBlur > 0 ? `blur(${projBlur}px)` : 'none',
                 pointerEvents: isDominant ? 'auto' : 'none',
                 '--accent-color': proj.color,
               }}
@@ -97,7 +94,6 @@ export function ProjectsFilm({ progress, mousePos }) {
             >
               <div className="monolith-frame-glow" />
 
-              {/* Monolith Header Bar */}
               <div className="monolith-header">
                 <div className="monolith-repo-tag">
                   <Github size={13} />
@@ -106,19 +102,16 @@ export function ProjectsFilm({ progress, mousePos }) {
                 <div className="monolith-category-badge">{proj.category}</div>
               </div>
 
-              {/* Huge Project Title */}
               <div className="monolith-title-box">
                 <span className="monolith-number">0{pRange.index + 1} // REPOSITORY</span>
                 <h3 className="monolith-project-title">{proj.title}</h3>
                 <p className="monolith-subtitle">{proj.subtitle}</p>
               </div>
 
-              {/* REALISTIC UI INTERFACE PREVIEW */}
               <div className="monolith-ui-viewport">
                 <ProjectCardVisual projectId={proj.id} />
               </div>
 
-              {/* Footer / Tech Badges */}
               <div className="monolith-footer-row">
                 <div className="monolith-tech-tags">
                   {proj.technologies.slice(0, 4).map((tech) => (

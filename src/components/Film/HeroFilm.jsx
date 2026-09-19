@@ -2,89 +2,74 @@ import React from 'react';
 import { ArrowDown } from 'lucide-react';
 
 export function HeroFilm({ progress, mousePos }) {
-  // Hero is active from 0.00 to 0.25
-  const isActive = progress <= 0.25;
+  // Hero is active from 0.00 to 0.22
+  const isActive = progress <= 0.22;
 
-  // Staged progress milestones:
-  // 0.00 -> 0.04: Pure Black & subtle atmosphere
-  // 0.04 -> 0.09: Video subject emerges and settles
-  // 0.09 -> 0.15: Huge AKSHANTH letters emerge and lock in place (stable view)
-  // 0.15 -> 0.19: Subtitles and HUD settle, allowing user to appreciate the composition
-  // 0.19 -> 0.25: Slow, heavy camera dolly straight through the letters of AKSHANTH
-
-  // Video Opacity: fades in 0.04->0.09, remains steady 0.09->0.18, then fades during dolly 0.18->0.24
+  // Video Opacity: emerges 0.02 -> 0.06, steady 0.06 -> 0.14, fades 0.14 -> 0.20
   let videoOpacity = 0;
-  if (progress >= 0.04 && progress < 0.09) {
-    videoOpacity = (progress - 0.04) / 0.05 * 0.7;
-  } else if (progress >= 0.09 && progress < 0.18) {
+  if (progress >= 0.02 && progress < 0.06) {
+    videoOpacity = ((progress - 0.02) / 0.04) * 0.7;
+  } else if (progress >= 0.06 && progress < 0.14) {
     videoOpacity = 0.7;
-  } else if (progress >= 0.18 && progress <= 0.24) {
-    videoOpacity = Math.max(0, 0.7 * (1 - (progress - 0.18) / 0.06));
+  } else if (progress >= 0.14 && progress <= 0.20) {
+    videoOpacity = Math.max(0, 0.7 * (1 - (progress - 0.14) / 0.06));
   }
 
-  // Video scale and position
-  const videoScale = 1 + Math.max(0, (progress - 0.15) * 1.5);
-  const videoTranslateY = -Math.max(0, (progress - 0.15) * 120);
+  const videoScale = 1 + Math.max(0, (progress - 0.10) * 1.5);
+  const videoTranslateY = -Math.max(0, (progress - 0.10) * 100);
 
-  // Mouse parallax (subtle)
-  const parallaxX = mousePos.x * 18;
-  const parallaxY = mousePos.y * 12;
+  const parallaxX = mousePos.x * 15;
+  const parallaxY = mousePos.y * 10;
 
-  // Letters of AKSHANTH with individual 3D depth parameters
   const letters = [
-    { char: 'A', depth: 1.15, driftX: -90, driftY: -30, rotZ: -3 },
-    { char: 'K', depth: 0.95, driftX: -60, driftY: 20, rotZ: 2 },
-    { char: 'S', depth: 1.25, driftX: -30, driftY: -40, rotZ: -2 },
-    { char: 'H', depth: 0.85, driftX: 0, driftY: 30, rotZ: 1 },
-    { char: 'A', depth: 1.30, driftX: 35, driftY: -25, rotZ: 3 },
-    { char: 'N', depth: 1.05, driftX: 65, driftY: 25, rotZ: -2 },
-    { char: 'T', depth: 1.20, driftX: 95, driftY: -35, rotZ: 2 },
-    { char: 'H', depth: 1.10, driftX: 125, driftY: 15, rotZ: -1 },
+    { char: 'A', depth: 1.15, driftX: -80, driftY: -25, rotZ: -3 },
+    { char: 'K', depth: 0.95, driftX: -50, driftY: 18, rotZ: 2 },
+    { char: 'S', depth: 1.25, driftX: -25, driftY: -30, rotZ: -2 },
+    { char: 'H', depth: 0.85, driftX: 0, driftY: 25, rotZ: 1 },
+    { char: 'A', depth: 1.30, driftX: 30, driftY: -20, rotZ: 3 },
+    { char: 'N', depth: 1.05, driftX: 55, driftY: 20, rotZ: -2 },
+    { char: 'T', depth: 1.20, driftX: 80, driftY: -30, rotZ: 2 },
+    { char: 'H', depth: 1.10, driftX: 105, driftY: 15, rotZ: -1 },
   ];
 
-  // Letter emergence (0.08 -> 0.14) and dolly fly-through (0.18 -> 0.24)
   let letterBaseOpacity = 0;
-  if (progress >= 0.08 && progress < 0.14) {
-    letterBaseOpacity = (progress - 0.08) / 0.06;
-  } else if (progress >= 0.14) {
+  if (progress >= 0.04 && progress < 0.08) {
+    letterBaseOpacity = (progress - 0.04) / 0.04;
+  } else if (progress >= 0.08) {
     letterBaseOpacity = 1;
   }
 
-  // Dolly progress through letters (only starts after 0.18)
-  const dollyProg = Math.max(0, Math.min(1, (progress - 0.18) / 0.06));
+  // Smooth dolly progress through letters (0.13 -> 0.20)
+  const dollyProg = Math.max(0, Math.min(1, (progress - 0.13) / 0.07));
 
-  // Subtitles & HUD opacity (emerges 0.13 -> 0.16, fades during dolly 0.18 -> 0.22)
   let subOpacity = 0;
-  if (progress >= 0.13 && progress < 0.16) {
-    subOpacity = (progress - 0.13) / 0.03;
-  } else if (progress >= 0.16 && progress < 0.18) {
+  if (progress >= 0.07 && progress < 0.10) {
+    subOpacity = (progress - 0.07) / 0.03;
+  } else if (progress >= 0.10 && progress < 0.14) {
     subOpacity = 1;
-  } else if (progress >= 0.18 && progress <= 0.22) {
-    subOpacity = Math.max(0, 1 - (progress - 0.18) / 0.04);
+  } else if (progress >= 0.14 && progress <= 0.18) {
+    subOpacity = Math.max(0, 1 - (progress - 0.14) / 0.04);
   }
 
-  // Scene overall exit fade
-  const sceneOpacity = progress > 0.24 ? Math.max(0, 1 - (progress - 0.24) / 0.02) : 1;
+  const sceneOpacity = progress > 0.20 ? Math.max(0, 1 - (progress - 0.20) / 0.02) : 1;
 
   return (
     <div 
       className="film-scene hero-film-scene"
       style={{
         opacity: sceneOpacity,
-        pointerEvents: isActive && progress < 0.22 ? 'auto' : 'none',
+        pointerEvents: isActive && progress < 0.18 ? 'auto' : 'none',
         visibility: isActive ? 'visible' : 'hidden',
       }}
     >
-      {/* 1. ATMOSPHERIC BACKDROP & SUBTLE RED AMBIENT RIM */}
       <div 
         className="hero-film-atmosphere"
         style={{
-          opacity: Math.min(1, progress * 10),
+          opacity: Math.min(1, progress * 15),
         }}
       />
       <div className="hero-film-vignette" />
       
-      {/* 2. COMPOSITED VIDEO SUBJECT (MIDGROUND LAYER) */}
       <div 
         className="hero-video-composite-wrap"
         style={{
@@ -105,7 +90,6 @@ export function HeroFilm({ progress, mousePos }) {
         />
       </div>
 
-      {/* 3. HUGE 3D SPATIAL TYPOGRAPHY (PHYSICAL OBJECTS IN ENVIRONMENT) */}
       <div 
         className="hero-spatial-typography"
         style={{
@@ -114,13 +98,11 @@ export function HeroFilm({ progress, mousePos }) {
       >
         <div className="huge-name-track" aria-label="AKSHANTH">
           {letters.map((item, idx) => {
-            // Deliberate, slow, heavy fly-through during 0.18 -> 0.24
-            const letterZ = dollyProg * 850 * item.depth;
-            const letterX = item.driftX * dollyProg * 2.5;
-            const letterY = item.driftY * dollyProg * 2.5;
-            const letterRot = item.rotZ * dollyProg * 6;
+            const letterZ = dollyProg * 800 * item.depth;
+            const letterX = item.driftX * dollyProg * 2.2;
+            const letterY = item.driftY * dollyProg * 2.2;
+            const letterRot = item.rotZ * dollyProg * 5;
             const letterOp = letterBaseOpacity * Math.max(0, 1 - (dollyProg > 0.4 ? (dollyProg - 0.4) * 1.8 : 0));
-            const letterBlur = dollyProg > 0.5 ? (dollyProg - 0.5) * 20 : 0;
 
             return (
               <span
@@ -129,7 +111,6 @@ export function HeroFilm({ progress, mousePos }) {
                 style={{
                   transform: `translate3d(${letterX}px, ${letterY}px, ${letterZ}px) rotateZ(${letterRot}deg)`,
                   opacity: letterOp,
-                  filter: letterBlur > 0 ? `blur(${letterBlur}px)` : 'none',
                 }}
               >
                 {item.char}
@@ -138,11 +119,10 @@ export function HeroFilm({ progress, mousePos }) {
           })}
         </div>
 
-        {/* Cinematic Subtitle & Role */}
         <div 
           className="hero-film-subtitles"
           style={{
-            transform: `translate3d(0, ${dollyProg * -60}px, 0)`,
+            transform: `translate3d(0, ${dollyProg * -50}px, 0)`,
             opacity: subOpacity,
           }}
         >
@@ -156,12 +136,11 @@ export function HeroFilm({ progress, mousePos }) {
         </div>
       </div>
 
-      {/* 4. CINEMATIC HUD / TECHNICAL METADATA */}
       <div 
         className="hero-film-hud"
         style={{
           opacity: subOpacity,
-          transform: `translate3d(0, ${-dollyProg * 30}px, 0)`,
+          transform: `translate3d(0, ${-dollyProg * 20}px, 0)`,
         }}
       >
         <div className="hud-top-bar">
