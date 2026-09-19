@@ -16,22 +16,16 @@ export function FilmEngine() {
   const lenisRef = useRef(null);
   const trackRef = useRef(null);
 
-  // Target progress vs smoothed progress with heavy physical damping
-  const progressState = useRef({
-    target: 0,
-    current: 0,
-  });
-
-  // Initialize Lenis with heavy, slow, cinematic damping
+  // Initialize Lenis for smooth, responsive cinematic scrolling
   useEffect(() => {
     const lenis = new Lenis({
-      duration: 1.8, // slower, heavier response
+      duration: 1.2, // buttery smooth 1.2s easing
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 0.7, // prevents hyper-fast scroll skipping
-      touchMultiplier: 1.1,
+      wheelMultiplier: 1.0, // crisp, direct 1:1 scroll responsiveness
+      touchMultiplier: 1.5,
     });
 
     lenisRef.current = lenis;
@@ -39,18 +33,12 @@ export function FilmEngine() {
     lenis.on('scroll', (e) => {
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       const rawProgress = maxScroll > 0 ? Math.max(0, Math.min(1, e.scroll / maxScroll)) : 0;
-      progressState.current.target = rawProgress;
+      setScrollProgress(rawProgress);
     });
 
-    // Animation frame for heavy camera inertia and progress smoothing
     let rafId;
     function raf(time) {
       lenis.raf(time);
-
-      // Low damping factor (0.05) gives camera physical weight and inertia
-      progressState.current.current += (progressState.current.target - progressState.current.current) * 0.055;
-      setScrollProgress(progressState.current.current);
-
       rafId = requestAnimationFrame(raf);
     }
     rafId = requestAnimationFrame(raf);
@@ -73,12 +61,12 @@ export function FilmEngine() {
     return () => window.removeEventListener('mousemove', onMouseMove);
   }, []);
 
-  // Jump to chapter with slow, intentional transition
+  // Jump to chapter with smooth transition
   const scrollToChapter = (targetProgress) => {
     const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
     const targetY = targetProgress * maxScroll;
     if (lenisRef.current) {
-      lenisRef.current.scrollTo(targetY, { duration: 2.2 });
+      lenisRef.current.scrollTo(targetY, { duration: 1.4 });
     } else {
       window.scrollTo({ top: targetY, behavior: 'smooth' });
     }
@@ -129,13 +117,13 @@ export function FilmEngine() {
         {/* Chapter 01: Hero Opening Film (0.00 – 0.24) */}
         <HeroFilm progress={scrollProgress} mousePos={mousePos} />
 
-        {/* Chapter 02: Spatial Tech World (0.20 – 0.50) */}
+        {/* Chapter 02: Spatial Tech World (0.20 – 0.52) */}
         <TechFilm progress={scrollProgress} mousePos={mousePos} />
 
-        {/* Chapter 03: Chrono Time Machine (0.46 – 0.74) */}
+        {/* Chapter 03: Chrono Time Machine (0.48 – 0.75) */}
         <JourneyFilm progress={scrollProgress} mousePos={mousePos} />
 
-        {/* Chapter 04: Spatial Project Universe (0.70 – 0.95) */}
+        {/* Chapter 04: Spatial Project Universe (0.72 – 0.95) */}
         <ProjectsFilm progress={scrollProgress} mousePos={mousePos} />
 
         {/* Chapter 05: Finale & Transmission (0.92 – 1.00) */}
@@ -178,8 +166,8 @@ export function FilmEngine() {
         </div>
       </header>
 
-      {/* SPACIOUS VIRTUAL SCROLL TRACK (~42 VIEWPORT HEIGHTS OF CINEMATIC RUNWAY) */}
-      <div ref={trackRef} className="film-virtual-scroll-track" style={{ height: '4200vh' }} />
+      {/* SPACIOUS VIRTUAL SCROLL TRACK (~15 VIEWPORT HEIGHTS FOR SILKY SMOOTH RUNWAY) */}
+      <div ref={trackRef} className="film-virtual-scroll-track" style={{ height: '1500vh' }} />
     </div>
   );
 }

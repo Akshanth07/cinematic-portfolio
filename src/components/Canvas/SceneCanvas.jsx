@@ -5,13 +5,12 @@ export function SceneCanvas({ scrollProgress = 0, mousePos = { x: 0, y: 0 } }) {
   const containerRef = useRef(null);
   const stateRef = useRef({
     scrollProgress: 0,
-    targetProgress: 0,
     mouse: { x: 0, y: 0 },
     targetMouse: { x: 0, y: 0 },
   });
 
   useEffect(() => {
-    stateRef.current.targetProgress = scrollProgress;
+    stateRef.current.scrollProgress = scrollProgress;
   }, [scrollProgress]);
 
   useEffect(() => {
@@ -52,7 +51,7 @@ export function SceneCanvas({ scrollProgress = 0, mousePos = { x: 0, y: 0 } }) {
     // ==========================================
     // 1. 3D ATMOSPHERIC STARFIELD & DUST PARTICLES
     // ==========================================
-    const particleCount = 2400;
+    const particleCount = 2000;
     const positions = new Float32Array(particleCount * 3);
     const colors = new Float32Array(particleCount * 3);
     const scales = new Float32Array(particleCount);
@@ -226,23 +225,22 @@ export function SceneCanvas({ scrollProgress = 0, mousePos = { x: 0, y: 0 } }) {
       animationFrameId = requestAnimationFrame(render);
       const elapsedTime = clock.getElapsedTime();
 
-      // Low damping factor for heavy physical inertia (0.04)
-      stateRef.current.scrollProgress += (stateRef.current.targetProgress - stateRef.current.scrollProgress) * 0.045;
-      stateRef.current.mouse.x += (stateRef.current.targetMouse.x - stateRef.current.mouse.x) * 0.05;
-      stateRef.current.mouse.y += (stateRef.current.targetMouse.y - stateRef.current.mouse.y) * 0.05;
+      // Direct, smooth mouse tracking
+      stateRef.current.mouse.x += (stateRef.current.targetMouse.x - stateRef.current.mouse.x) * 0.08;
+      stateRef.current.mouse.y += (stateRef.current.targetMouse.y - stateRef.current.mouse.y) * 0.08;
 
       const p = stateRef.current.scrollProgress;
       const mx = stateRef.current.mouse.x;
       const my = stateRef.current.mouse.y;
 
-      // Heavy virtual camera trajectory
+      // Silky smooth virtual camera trajectory without compounding input lag
       const targetCamZ = 120 - p * 2300;
       const targetCamY = -p * 220;
       const targetCamX = Math.sin(p * Math.PI * 2.5) * 16;
 
-      camera.position.z += (targetCamZ - camera.position.z) * 0.08;
-      camera.position.y += (targetCamY - camera.position.y) * 0.08;
-      camera.position.x += (targetCamX - camera.position.x) * 0.08;
+      camera.position.z += (targetCamZ - camera.position.z) * 0.12;
+      camera.position.y += (targetCamY - camera.position.y) * 0.12;
+      camera.position.x += (targetCamX - camera.position.x) * 0.12;
 
       // Mouse orbit influence
       camera.position.x += mx * 5;
@@ -253,7 +251,7 @@ export function SceneCanvas({ scrollProgress = 0, mousePos = { x: 0, y: 0 } }) {
         camera.position.z - 160
       );
 
-      // Rotate particles very slowly
+      // Rotate particles subtly
       particles.rotation.y = elapsedTime * 0.01 + p * 0.6;
 
       // Rotate Tech nodes
