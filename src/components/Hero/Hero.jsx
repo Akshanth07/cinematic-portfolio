@@ -145,7 +145,7 @@ export function Hero() {
           </div>
 
           <div className="hero-role-display">
-            <span className="role-main">AI · BACKEND · IoT</span>
+            <span className="role-main">BACKEND · AI/ML · IoT</span>
             <span className="role-sub">COMPUTER SCIENCE & ENGINEERING (IoT)</span>
           </div>
         </div>

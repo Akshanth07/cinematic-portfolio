@@ -128,7 +128,7 @@ export function HeroFilm({ progress, mousePos }) {
         >
           <div className="film-role-tag">
             <span className="role-bullet" />
-            <span>AI · BACKEND · IoT DEVELOPER</span>
+            <span>BACKEND · AI/ML · IoT DEVELOPER</span>
           </div>
           <h2 className="film-focus-headline">
             COMPUTER SCIENCE & ENGINEERING (IoT) · SRMIST
@@ -162,7 +162,7 @@ export function HeroFilm({ progress, mousePos }) {
           </div>
           <div className="hud-meta-item">
             <span className="meta-lbl">EXPERIENCE</span>
-            <strong className="meta-val">Saint-Gobain Alum</strong>
+            <strong className="meta-val">Saint-Gobain Intern</strong>
           </div>
           <div className="hud-scroll-prompt">
             <span className="prompt-txt">SCROLL TO ENTER ENVIRONMENT</span>

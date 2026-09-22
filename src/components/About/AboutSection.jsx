@@ -28,10 +28,10 @@ export function AboutSection() {
                 I am a Computer Science & Engineering student specializing in Internet of Things at <strong>SRM Institute of Science and Technology</strong> with a <strong>9.36 / 10 CGPA</strong>.
               </p>
               <p>
-                My focus spans <strong>backend engineering</strong> with Java and Spring Boot, <strong>Python API development</strong>, <strong>applied machine learning</strong>, and <strong>IoT sensor systems</strong>.
+                My engineering focus spans <strong>enterprise backend architectures</strong> with Java and Spring Boot, <strong>asynchronous Python & FastAPI microservices</strong>, <strong>machine learning anomaly detection</strong>, and <strong>real-time IoT/WebRTC systems</strong>.
               </p>
               <p>
-                I have hands-on enterprise development experience from an internship at <strong>Saint-Gobain</strong>, working with Java, Spring Boot microservices, and RESTful architectures.
+                I have hands-on enterprise development experience as a Backend Intern at <strong>Saint-Gobain</strong> (Oxygen & Transition platforms) and qualified for <strong>Smart India Hackathon 2026 (SIH26133)</strong> building rural telemedicine solutions.
               </p>
             </div>
 
@@ -43,6 +43,10 @@ export function AboutSection() {
               <div className="credential-pill">
                 <ShieldCheck size={15} className="text-accent" />
                 <span>SAINT-GOBAIN INTERNSHIP</span>
+              </div>
+              <div className="credential-pill">
+                <Terminal size={15} className="text-accent" />
+                <span>SIH 2026 QUALIFIED</span>
               </div>
               <div className="credential-pill">
                 <Globe size={15} className="text-accent" />

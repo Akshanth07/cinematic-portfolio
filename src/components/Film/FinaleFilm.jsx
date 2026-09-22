@@ -31,7 +31,7 @@ export function FinaleFilm({ progress, mousePos }) {
     {
       id: 'linkedin',
       label: 'LINKEDIN',
-      value: 'linkedin.com/in/akshanth-n',
+      value: 'linkedin.com/in/akshanth-n-395071327',
       url: profileData.socials.linkedin,
       icon: Linkedin,
     },
@@ -105,7 +105,7 @@ export function FinaleFilm({ progress, mousePos }) {
           style={{ opacity: contactsOpacity }}
         >
           <h3 className="finale-name">{profileData.name}</h3>
-          <p className="finale-role">AI · BACKEND · IoT DEVELOPER · SRMIST</p>
+          <p className="finale-role">BACKEND · AI/ML · IoT DEVELOPER · SRMIST</p>
         </div>
 
         {/* Direct Transmission Cards */}

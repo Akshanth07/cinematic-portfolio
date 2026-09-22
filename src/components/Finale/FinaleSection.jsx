@@ -78,7 +78,7 @@ export function FinaleSection() {
             </div>
             <div className="contact-card-info">
               <span className="contact-type">LINKEDIN</span>
-              <strong className="contact-val">Akshanth N</strong>
+              <strong className="contact-val">linkedin.com/in/akshanth-n-395071327</strong>
             </div>
             <ArrowUpRight size={16} className="contact-arrow" />
           </a>

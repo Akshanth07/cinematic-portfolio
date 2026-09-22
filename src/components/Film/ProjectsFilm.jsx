@@ -9,12 +9,13 @@ export function ProjectsFilm({ progress, mousePos }) {
   // Scene 04 active range: 0.70 to 0.92
   const isActive = progress >= 0.70 && progress < 0.92;
 
-  // 4 Projects cleanly partitioned
+  // 5 Projects cleanly partitioned
   const projectRanges = [
-    { id: 'curatrack', start: 0.70, end: 0.755, index: 0 },
-    { id: 'finbud', start: 0.755, end: 0.81, index: 1 },
-    { id: 'safetysense', start: 0.81, end: 0.865, index: 2 },
-    { id: 'ecommerce', start: 0.865, end: 0.92, index: 3 },
+    { id: 'curatrack', start: 0.70, end: 0.744, index: 0 },
+    { id: 'safetysense', start: 0.744, end: 0.788, index: 1 },
+    { id: 'finbud', start: 0.788, end: 0.832, index: 2 },
+    { id: 'ecommerce', start: 0.832, end: 0.876, index: 3 },
+    { id: 'foodcourt', start: 0.876, end: 0.92, index: 4 },
   ];
 
   const px = mousePos.x * 15;
@@ -69,7 +70,7 @@ export function ProjectsFilm({ progress, mousePos }) {
           <Terminal size={12} className="text-accent" />
           <span>VERIFIED GITHUB ARTIFACTS</span>
           <span className="hud-divider">·</span>
-          <span>STAGE [0{activeProjObj.index + 1} / 04]</span>
+          <span>STAGE [0{activeProjObj.index + 1} / 05]</span>
         </div>
       </div>
 

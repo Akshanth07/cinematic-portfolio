@@ -164,5 +164,43 @@ export function ProjectCardVisual({ projectId }) {
     );
   }
 
+  if (projectId === 'foodcourt') {
+    return (
+      <div className="project-visual-preview foodcourt-preview" aria-hidden="true">
+        <div className="preview-top-bar">
+          <span className="preview-dot red" />
+          <span className="preview-dot yellow" />
+          <span className="preview-dot green" />
+          <span className="preview-title-bar">foodcourt // multi-tenant-dbms</span>
+        </div>
+        <div className="preview-content">
+          <div className="preview-header-row">
+            <div className="preview-badge-status">
+              <Activity size={11} className="text-accent" />
+              <span>TOKEN FULFILLMENT</span>
+            </div>
+            <span className="preview-room-tag">MYSQL + STREAMLIT</span>
+          </div>
+
+          <div className="ecommerce-routes-box">
+            <div className="route-pill">
+              <span className="http-method post">QUEUE</span>
+              <span className="route-path">Real-Time Token Ingest</span>
+            </div>
+            <div className="route-pill">
+              <span className="http-method get">ADMIN</span>
+              <span className="route-path">Streamlit Analytics Engine</span>
+            </div>
+            <div className="route-pill">
+              <span className="http-method auth">TENANT</span>
+              <span className="route-path">Vendor Sales & Billing</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return null;
 }
+

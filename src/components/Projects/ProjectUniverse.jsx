@@ -8,7 +8,7 @@ export function ProjectUniverse() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [activeCategory, setActiveCategory] = useState('ALL');
 
-  const categories = ['ALL', 'HEALTHCARE / WEB', 'FINTECH', 'IoT / AI', 'ENTERPRISE BACKEND'];
+  const categories = ['ALL', 'HEALTHCARE / REAL-TIME', 'IoT / MACHINE LEARNING', 'FINTECH / DISTRIBUTED', 'ENTERPRISE JAVA', 'DBMS / ANALYTICS'];
 
   const filteredProjects = activeCategory === 'ALL'
     ? projects
