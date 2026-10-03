@@ -10,7 +10,7 @@ export function FinaleSection() {
 
       <div className="finale-container">
         <div className="section-chapter-tag">
-          <span className="chapter-num">SCENE 05</span>
+          <span className="chapter-num">SCENE 06</span>
           <span className="chapter-divider">/</span>
           <span className="chapter-title">CONTACT</span>
         </div>
@@ -28,7 +28,7 @@ export function FinaleSection() {
           </h2>
 
           <p className="finale-subtitle">
-            Open for software engineering opportunities, backend development roles, and technical collaborations.
+            Interested in backend development, artificial intelligence, machine learning, and IoT systems. Open for internship and project opportunities.
           </p>
         </div>
 
@@ -91,18 +91,18 @@ export function FinaleSection() {
             <code>SYSTEM STATUS: ONLINE</code>
           </div>
           <div className="terminal-right">
-            <span>BUILDING DIGITAL SYSTEMS</span>
+            <span>{profileData.location.toUpperCase()}</span>
           </div>
         </div>
 
         {/* Footer */}
         <footer className="finale-footer">
           <div className="footer-left">
-            <span className="footer-brand">AKSHANTH N</span>
-            <span className="footer-tag">Computer Science & Engineering (IoT) · SRMIST</span>
+            <span className="footer-brand">{profileData.name.toUpperCase()}</span>
+            <span className="footer-tag">{profileData.degree} · {profileData.institutionShort}</span>
           </div>
           <div className="footer-right">
-            <span>© 2026 AKSHANTH N</span>
+            <span>© 2026 {profileData.name.toUpperCase()}</span>
           </div>
         </footer>
       </div>

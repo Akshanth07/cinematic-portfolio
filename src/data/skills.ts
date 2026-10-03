@@ -9,145 +9,249 @@ export interface SkillItem {
 export const skillCategories = ['ALL', 'BACKEND', 'AI / ML', 'IoT', 'FRONTEND'] as const;
 
 export const skillsData: SkillItem[] = [
-  // Backend & Architecture
+  // Backend
   {
     name: 'Java',
     domain: 'BACKEND',
     category: 'BACKEND',
-    related: ['Spring Boot', 'Spring Data JPA', 'REST APIs', 'PostgreSQL', 'Maven'],
-    context: 'Enterprise backend development for Oxygen & Transition platforms at Saint-Gobain and layered REST API architectures.'
+    related: ['Spring Boot', 'REST APIs', 'Spring Data JPA', 'PostgreSQL', 'Maven'],
+    context: 'Used during backend development internship at Saint-Gobain and in enterprise Java REST API architectures.'
   },
   {
     name: 'Spring Boot',
     domain: 'BACKEND',
     category: 'BACKEND',
-    related: ['Java', 'Spring Data JPA', 'Spring Security', 'DTOs', 'Mappers'],
-    context: 'Developed enterprise REST endpoints, DTO mappers, Role-Based Access Control, and forecast recalculation workflows.'
-  },
-  {
-    name: 'FastAPI',
-    domain: 'BACKEND',
-    category: 'BACKEND',
-    related: ['Python', 'Async I/O', 'REST APIs', 'SQLAlchemy', 'Pydantic'],
-    context: 'Asynchronous microservices powering CuraTrack V2 teleconsultations, FinBud financial modules, and SafetySense live telemetry.'
-  },
-  {
-    name: 'Python',
-    domain: 'BACKEND',
-    category: 'BACKEND',
-    related: ['FastAPI', 'Flask', 'Isolation Forest', 'Scikit-learn', 'NumPy'],
-    context: 'Core language for async backend APIs, ML anomaly detection pipelines, and data processing scripts.'
-  },
-  {
-    name: 'PostgreSQL',
-    domain: 'BACKEND',
-    category: 'BACKEND',
-    related: ['SQL', 'Supabase', 'SQLAlchemy', 'Spring Data JPA', 'Alembic'],
-    context: 'Relational database persistence across Spring Boot e-commerce, FinBud ledger, and CuraTrack clinical systems.'
+    related: ['Java', 'Spring Data JPA', 'Spring Security', 'DTOs', 'Maven'],
+    context: 'Used to build structured REST APIs with controller, service, DTO, and repository layers.'
   },
   {
     name: 'REST APIs',
     domain: 'BACKEND',
     category: 'BACKEND',
     related: ['Spring Boot', 'FastAPI', 'Postman', 'DTO Pattern', 'JSON'],
-    context: 'Engineered 20+ clinical endpoints, financial data APIs, and enterprise Saint-Gobain resource management services.'
+    context: 'Used to design and implement structured endpoints and communication interfaces for backend applications.'
   },
   {
-    name: 'Supabase & RLS',
+    name: 'FastAPI',
     domain: 'BACKEND',
     category: 'BACKEND',
-    related: ['PostgreSQL', 'JWT', 'Security Policies', 'Zero Data Leakage'],
-    context: 'Enforced zero cross-user data leakage by combining JWT access tokens with Supabase Row-Level Security policies.'
+    related: ['Python', 'Async I/O', 'REST APIs', 'Pydantic'],
+    context: 'Used for asynchronous backend development in CuraTrack V2 and IoT telemetry processing in SafetySense.'
   },
   {
-    name: 'Docker & Maven',
+    name: 'Python',
     domain: 'BACKEND',
     category: 'BACKEND',
-    related: ['Git', 'IntelliJ IDEA', 'Postman', 'CI/CD Pipelines'],
-    context: 'Containerization, build management, Postman API validation, and Git-based collaborative development.'
+    related: ['FastAPI', 'Flask', 'Machine Learning', 'NumPy', 'Pandas'],
+    context: 'Primary language for backend APIs, machine learning pipelines, and data processing scripts.'
+  },
+  {
+    name: 'PostgreSQL',
+    domain: 'BACKEND',
+    category: 'BACKEND',
+    related: ['SQL', 'Supabase', 'Spring Data JPA', 'Relational DB'],
+    context: 'Used for relational database persistence across Spring Boot applications and database-backed projects.'
+  },
+  {
+    name: 'MySQL',
+    domain: 'BACKEND',
+    category: 'BACKEND',
+    related: ['SQL', 'Flask', 'Streamlit', 'DBMS Design'],
+    context: 'Used for relational schema design, querying, and transactional data in the Food Court Management System.'
+  },
+  {
+    name: 'Spring Data JPA',
+    domain: 'BACKEND',
+    category: 'BACKEND',
+    related: ['Java', 'Spring Boot', 'Hibernate', 'ORM', 'PostgreSQL'],
+    context: 'Used for repository-based data access and entity persistence in Java backend projects.'
+  },
+  {
+    name: 'SQL',
+    domain: 'BACKEND',
+    category: 'BACKEND',
+    related: ['PostgreSQL', 'MySQL', 'Relational Schemas', 'Queries'],
+    context: 'Used for relational database querying, schema structuring, and transactional operations.'
+  },
+  {
+    name: 'Postman',
+    domain: 'BACKEND',
+    category: 'BACKEND',
+    related: ['REST APIs', 'API Testing', 'HTTP Methods', 'Spring Boot'],
+    context: 'Used for API endpoint testing, request validation, and backend service verification.'
+  },
+  {
+    name: 'Git',
+    domain: 'BACKEND',
+    category: 'BACKEND',
+    related: ['GitHub', 'Version Control', 'Branching', 'Collaboration'],
+    context: 'Used for distributed version control, source code management, and project tracking.'
+  },
+  {
+    name: 'GitHub',
+    domain: 'BACKEND',
+    category: 'BACKEND',
+    related: ['Git', 'Repositories', 'Open Source', 'Project Hosting'],
+    context: 'Used for repository hosting, project documentation, and code collaboration.'
   },
 
-  // AI & Machine Learning
+  // AI / Machine Learning
+  {
+    name: 'Machine Learning',
+    domain: 'AI / ML',
+    category: 'AI / ML',
+    related: ['Scikit-learn', 'Regression Models', 'Isolation Forest', 'Python'],
+    context: 'Applied for predictive models, data analysis, and anomaly detection workflows.'
+  },
+  {
+    name: 'Regression Models',
+    domain: 'AI / ML',
+    category: 'AI / ML',
+    related: ['Scikit-learn', 'Python', 'Statistical Modeling'],
+    context: 'Used for predictive analysis and continuous variable estimation in machine learning tasks.'
+  },
   {
     name: 'Isolation Forest',
     domain: 'AI / ML',
     category: 'AI / ML',
     related: ['Scikit-learn', 'NumPy', 'Pandas', 'Anomaly Detection'],
-    context: 'Trained unsupervised anomaly detection pipeline on 14,000+ vibration samples, achieving 85–90% machine defect accuracy.'
+    context: 'Used for unsupervised machine learning-based anomaly detection in the SafetySense project.'
   },
   {
-    name: 'Machine Learning',
+    name: 'Scikit-learn',
     domain: 'AI / ML',
     category: 'AI / ML',
-    related: ['Scikit-learn', 'Random Forest', 'Regression Models', 'Python'],
-    context: 'Applied predictive analytics, health-risk classification, threshold tuning, and machine health telemetry index computation.'
+    related: ['Python', 'Machine Learning', 'Data Preprocessing', 'Model Training'],
+    context: 'Used for training and evaluating machine learning models and dataset preparation.'
   },
   {
-    name: 'OCR & Vision',
+    name: 'PyTorch',
     domain: 'AI / ML',
     category: 'AI / ML',
-    related: ['Tesseract', 'openFDA', 'Medical OCR', 'Document Parsing'],
-    context: 'Automated medical prescription OCR and integrated openFDA database drug-interaction validation in CuraTrack V2.'
+    related: ['TorchVision', 'Deep Learning', 'Neural Networks', 'Python'],
+    context: 'Used for exploring neural networks and deep learning model architectures.'
   },
   {
-    name: 'NumPy & Pandas',
+    name: 'TorchVision',
     domain: 'AI / ML',
     category: 'AI / ML',
-    related: ['Data Cleaning', 'Feature Engineering', 'Telemetry Ingest'],
-    context: 'High-speed dataset preprocessing, time-series telemetry matrix transforms, and statistical signal evaluation.'
+    related: ['PyTorch', 'Computer Vision', 'Image Datasets'],
+    context: 'Used for computer vision datasets and transformation pipelines in machine learning.'
+  },
+  {
+    name: 'OpenCV',
+    domain: 'AI / ML',
+    category: 'AI / ML',
+    related: ['Computer Vision', 'Image Processing', 'Python', 'YOLO'],
+    context: 'Used for computer vision tasks, image filtering, preprocessing, and visual detection.'
+  },
+  {
+    name: 'YOLO',
+    domain: 'AI / ML',
+    category: 'AI / ML',
+    related: ['Object Detection', 'OpenCV', 'Computer Vision'],
+    context: 'Used for exploring real-time object detection and bounding-box identification workflows.'
+  },
+  {
+    name: 'OpenVINO',
+    domain: 'AI / ML',
+    category: 'AI / ML',
+    related: ['Model Inference', 'Edge AI', 'Optimization'],
+    context: 'Used for exploring optimized neural network inference on edge computing devices.'
+  },
+  {
+    name: 'NumPy',
+    domain: 'AI / ML',
+    category: 'AI / ML',
+    related: ['Pandas', 'Matrix Math', 'Array Computation', 'Python'],
+    context: 'Used for numerical computation, array operations, and telemetry signal transformations.'
+  },
+  {
+    name: 'Pandas',
+    domain: 'AI / ML',
+    category: 'AI / ML',
+    related: ['DataFrames', 'Data Cleaning', 'NumPy', 'Python'],
+    context: 'Used for dataset structuring, time-series data handling, and feature preparation.'
   },
 
-  // IoT & Real-Time Systems
+  // IoT
   {
-    name: 'Arduino Uno & ESP8266',
+    name: 'Arduino Uno',
     domain: 'IoT',
     category: 'IoT',
-    related: ['NodeMCU', 'ESP-01', 'Microcontrollers', 'Embedded C++'],
-    context: 'Microcontroller hardware architecture for live sensor acquisition, Wi-Fi streaming, and embedded edge compute.'
+    related: ['Microcontrollers', 'C/C++', 'Sensors', 'Embedded Systems'],
+    context: 'Used for microcontroller programming, physical sensor acquisition, and hardware projects.'
+  },
+  {
+    name: 'ESP-01',
+    domain: 'IoT',
+    category: 'IoT',
+    related: ['Wi-Fi Module', 'UART', 'Microcontrollers', 'IoT'],
+    context: 'Used for adding Wi-Fi connectivity to microcontrollers for data transmission.'
+  },
+  {
+    name: 'ESP8266 / NodeMCU',
+    domain: 'IoT',
+    category: 'IoT',
+    related: ['Wi-Fi Telemetry', 'Arduino IDE', 'IoT Systems', 'FastAPI'],
+    context: 'Used for Wi-Fi-enabled microcontroller prototyping and live telemetry streaming.'
   },
   {
     name: 'Sensor Integration',
     domain: 'IoT',
     category: 'IoT',
-    related: ['Vibration Sensors', 'Temperature', 'Sound', 'Analog/Digital'],
-    context: 'Multi-sensor hardware interfacing measuring vibration, sound, temperature, and humidity for machine health monitors.'
+    related: ['Vibration', 'Temperature', 'Sound', 'Analog/Digital Signals'],
+    context: 'Used for hardware sensor interfacing, reading analog/digital signals, and data acquisition.'
   },
   {
-    name: 'WebRTC & Signaling',
+    name: 'Embedded Systems',
     domain: 'IoT',
     category: 'IoT',
-    related: ['Real-Time Video', 'Peer Connections', 'Sub-200ms Latency'],
-    context: 'Engineered sub-200ms peer-connection signaling pipelines for live clinical doctor-patient telemedicine consultations.'
+    related: ['C/C++', 'Microcontrollers', 'Hardware Protocols'],
+    context: 'Studied and applied in B.Tech CSE (IoT) coursework and hands-on hardware builds.'
   },
   {
-    name: 'BLE (Bluetooth)',
+    name: 'IoT Communication',
     domain: 'IoT',
     category: 'IoT',
-    related: ['Offline-First Sync', 'Vitals Ingestion', 'Reconnection Sync'],
-    context: 'Engineered offline-first Bluetooth Low Energy telemetry sync for automatic patient vitals transmission upon reconnect.'
+    related: ['MQTT', 'HTTP', 'WebSockets', 'Telemetry Streaming'],
+    context: 'Used for streaming data between hardware microcontrollers and backend software servers.'
   },
 
-  // Frontend & Client
+  // Frontend
   {
-    name: 'React & Next.js',
+    name: 'React',
     domain: 'FRONTEND',
     category: 'FRONTEND',
-    related: ['TypeScript', 'Tailwind CSS', 'TanStack Query', 'State Management'],
-    context: 'Developed high-performance client portals for CuraTrack doctor/patient workflows and FinBud financial intelligence dashboards.'
+    related: ['JavaScript', 'TypeScript', 'Component Architecture', 'Next.js'],
+    context: 'Used in frontend development and interactive web interfaces.'
   },
   {
-    name: 'TypeScript & JavaScript',
+    name: 'Next.js',
     domain: 'FRONTEND',
     category: 'FRONTEND',
-    related: ['Next.js', 'React', 'Node.js', 'Type Safety'],
-    context: 'Primary language for type-safe frontend UI architecture, asynchronous API consumption, and real-time state reactivity.'
+    related: ['React', 'TypeScript', 'App Router', 'Web Development'],
+    context: 'Used for building full-stack web applications and client portals.'
   },
   {
-    name: 'Three.js & CSS',
+    name: 'TypeScript',
     domain: 'FRONTEND',
     category: 'FRONTEND',
-    related: ['WebGL', 'Cinematic Shaders', 'GSAP', 'Lenis Smooth Scroll'],
-    context: 'Architected real-time 3D spatial environments, custom particle systems, and interactive cinematic web applications.'
+    related: ['JavaScript', 'Type Safety', 'React', 'Next.js'],
+    context: 'Used for type-safe application development and structured frontend codebases.'
+  },
+  {
+    name: 'JavaScript',
+    domain: 'FRONTEND',
+    category: 'FRONTEND',
+    related: ['Web Development', 'React', 'DOM', 'Async/Await'],
+    context: 'Core programming language for interactive web applications and frontend functionality.'
+  },
+  {
+    name: 'Tailwind CSS',
+    domain: 'FRONTEND',
+    category: 'FRONTEND',
+    related: ['CSS', 'Utility-First Styling', 'Responsive Design'],
+    context: 'Used for utility-first styling and responsive web interface layouts.'
   }
 ];
-

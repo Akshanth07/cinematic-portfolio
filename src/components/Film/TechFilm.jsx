@@ -5,8 +5,8 @@ import { skillsData } from '../../data/skills';
 export function TechFilm({ progress, mousePos }) {
   const [activeNode, setActiveNode] = useState(skillsData[0]);
 
-  // Scene 02 active range: 0.20 to 0.46
-  const isActive = progress >= 0.20 && progress < 0.46;
+  // Scene 02 active range: 0.18 to 0.42
+  const isActive = progress >= 0.18 && progress < 0.42;
 
   const clusters = [
     {
@@ -14,42 +14,42 @@ export function TechFilm({ progress, mousePos }) {
       index: '01',
       title: 'BACKEND ARCHITECTURE',
       subtitle: 'ENTERPRISE SERVICES & REST APIS',
-      start: 0.20,
-      end: 0.265,
-      techs: ['Java', 'Spring Boot', 'FastAPI', 'Python', 'PostgreSQL', 'REST APIs', 'Supabase & RLS', 'Docker & Maven'],
+      start: 0.18,
+      end: 0.24,
+      techs: ['Java', 'Spring Boot', 'REST APIs', 'FastAPI', 'Python', 'PostgreSQL', 'MySQL', 'Spring Data JPA'],
       coords: 'LOC: [Z: -140m · SEC: 01-BE]',
       icon: Server,
     },
     {
       id: 'ai',
       index: '02',
-      title: 'INTELLIGENT SYSTEMS',
-      subtitle: 'MACHINE LEARNING & ANOMALY DETECTION',
-      start: 0.265,
-      end: 0.33,
-      techs: ['Isolation Forest', 'Machine Learning', 'OCR & Vision', 'NumPy & Pandas'],
+      title: 'AI & MACHINE LEARNING',
+      subtitle: 'DATA MODELING & ANOMALY DETECTION',
+      start: 0.24,
+      end: 0.30,
+      techs: ['Machine Learning', 'Regression Models', 'Isolation Forest', 'Scikit-learn', 'PyTorch', 'OpenCV', 'NumPy', 'Pandas'],
       coords: 'LOC: [Z: -300m · SEC: 02-AI]',
       icon: Eye,
     },
     {
       id: 'iot',
       index: '03',
-      title: 'IoT & REAL-TIME SYSTEMS',
-      subtitle: 'HARDWARE SENSING, BLE & WEBRTC',
-      start: 0.33,
-      end: 0.395,
-      techs: ['Arduino Uno & ESP8266', 'Sensor Integration', 'WebRTC & Signaling', 'BLE (Bluetooth)'],
+      title: 'IoT & EMBEDDED SYSTEMS',
+      subtitle: 'HARDWARE SENSING & TELEMETRY',
+      start: 0.30,
+      end: 0.36,
+      techs: ['Arduino Uno', 'ESP-01', 'ESP8266 / NodeMCU', 'Sensor Integration', 'Embedded Systems', 'IoT Communication'],
       coords: 'LOC: [Z: -460m · SEC: 03-IOT]',
       icon: Radio,
     },
     {
       id: 'frontend',
       index: '04',
-      title: 'CLIENT & SPATIAL GRAPHICS',
-      subtitle: 'REACTIVE INTERFACES & WEBGL ENGINES',
-      start: 0.395,
-      end: 0.46,
-      techs: ['React & Next.js', 'TypeScript & JavaScript', 'Three.js & CSS'],
+      title: 'CLIENT & WEB DEVELOPMENT',
+      subtitle: 'RESPONSIVE & TYPE-SAFE INTERFACES',
+      start: 0.36,
+      end: 0.42,
+      techs: ['React', 'Next.js', 'TypeScript', 'JavaScript', 'Tailwind CSS'],
       coords: 'LOC: [Z: -620m · SEC: 04-FE]',
       icon: Globe,
     },
@@ -58,19 +58,19 @@ export function TechFilm({ progress, mousePos }) {
   const px = mousePos.x * 15;
   const py = mousePos.y * 10;
 
-  // Scene overall fade in at 0.20, fade out at 0.45
+  // Scene overall fade in at 0.18, fade out at 0.42
   let sceneOpacity = 0;
-  if (progress >= 0.20 && progress < 0.22) {
-    sceneOpacity = (progress - 0.20) / 0.02;
-  } else if (progress >= 0.22 && progress <= 0.44) {
+  if (progress >= 0.18 && progress < 0.20) {
+    sceneOpacity = (progress - 0.18) / 0.02;
+  } else if (progress >= 0.20 && progress <= 0.40) {
     sceneOpacity = 1;
-  } else if (progress > 0.44 && progress <= 0.46) {
-    sceneOpacity = Math.max(0, 1 - (progress - 0.44) / 0.02);
+  } else if (progress > 0.40 && progress <= 0.42) {
+    sceneOpacity = Math.max(0, 1 - (progress - 0.40) / 0.02);
   }
 
   // Find currently active cluster cleanly without overlaps
   const currentClusterIdx = clusters.findIndex(c => progress >= c.start && progress < c.end);
-  const activeCluster = clusters[currentClusterIdx >= 0 ? currentClusterIdx : (progress < 0.20 ? 0 : 3)];
+  const activeCluster = clusters[currentClusterIdx >= 0 ? currentClusterIdx : (progress < 0.18 ? 0 : 3)];
 
   // Calculate smooth in-place fade & scale for the current cluster
   let itemOpacity = 1;
@@ -102,7 +102,7 @@ export function TechFilm({ progress, mousePos }) {
       <div 
         className="tech-matrix-grid"
         style={{
-          transform: `perspective(1000px) rotateX(65deg) translate3d(${px * 0.2}px, ${(progress - 0.20) * 500}px, 0)`,
+          transform: `perspective(1000px) rotateX(65deg) translate3d(${px * 0.2}px, ${(progress - 0.18) * 500}px, 0)`,
         }}
       />
 

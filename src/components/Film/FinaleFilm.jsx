@@ -3,22 +3,22 @@ import { Github, Linkedin, Mail, ArrowUpRight } from 'lucide-react';
 import { profileData } from '../../data/profile';
 
 export function FinaleFilm({ progress, mousePos }) {
-  // Scene 05 active range: 0.92 to 1.00
-  const isActive = progress >= 0.92;
+  // Scene 06 active range: 0.94 to 1.00
+  const isActive = progress >= 0.94;
 
   // Mouse parallax
   const px = mousePos.x * 16;
   const py = mousePos.y * 10;
 
   // Scene overall opacity based on entry
-  const sceneOpacity = Math.max(0, Math.min(1, (progress - 0.92) / 0.02));
+  const sceneOpacity = Math.max(0, Math.min(1, (progress - 0.94) / 0.02));
 
   // Progressive typographic line reveals
-  const line1Opacity = Math.max(0, Math.min(1, (progress - 0.925) / 0.015));
-  const line2Opacity = Math.max(0, Math.min(1, (progress - 0.94) / 0.015));
-  const line3Opacity = Math.max(0, Math.min(1, (progress - 0.955) / 0.015));
+  const line1Opacity = Math.max(0, Math.min(1, (progress - 0.945) / 0.015));
+  const line2Opacity = Math.max(0, Math.min(1, (progress - 0.955) / 0.015));
+  const line3Opacity = Math.max(0, Math.min(1, (progress - 0.965) / 0.015));
 
-  const contactsOpacity = Math.max(0, Math.min(1, (progress - 0.965) / 0.015));
+  const contactsOpacity = Math.max(0, Math.min(1, (progress - 0.975) / 0.015));
 
   const contactLinks = [
     {
@@ -63,7 +63,7 @@ export function FinaleFilm({ progress, mousePos }) {
       >
         {/* Chapter Tag */}
         <div className="section-chapter-tag text-center">
-          <span className="chapter-num">SCENE 05</span>
+          <span className="chapter-num">SCENE 06</span>
           <span className="chapter-divider">/</span>
           <span className="chapter-title">TRANSMISSION</span>
         </div>
@@ -150,13 +150,13 @@ export function FinaleFilm({ progress, mousePos }) {
             <span>SYSTEM STATUS: ONLINE // BUILDING DIGITAL SYSTEMS</span>
           </div>
           <div className="terminal-status-right">
-            <span>CHENNAI, INDIA</span>
+            <span>{profileData.location.toUpperCase()}</span>
           </div>
         </div>
 
         {/* Cinematic Minimal Footer */}
         <footer className="finale-minimal-footer" style={{ opacity: contactsOpacity }}>
-          <span>© 2026 AKSHANTH N — COMPUTER SCIENCE & ENGINEERING (IoT) · SRMIST</span>
+          <span>© 2026 {profileData.name.toUpperCase()} — {profileData.degree.toUpperCase()} · {profileData.institutionShort}</span>
           <span className="footer-coordinates">13.0827° N, 80.2707° E</span>
         </footer>
       </div>

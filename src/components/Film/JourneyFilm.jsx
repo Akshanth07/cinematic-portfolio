@@ -1,46 +1,45 @@
 import React from 'react';
-import { Clock, Sparkles } from 'lucide-react';
+import { Clock, Sparkles, CheckCircle2 } from 'lucide-react';
 import { journeyMilestones } from '../../data/journey';
+import { profileData } from '../../data/profile';
 
 export function JourneyFilm({ progress, mousePos }) {
-  // Scene 03 active range: 0.46 to 0.70
-  const isActive = progress >= 0.46 && progress < 0.70;
+  // Scene 03 active range: 0.40 to 0.64
+  const isActive = progress >= 0.40 && progress < 0.64;
 
-  // 5 Years cleanly partitioned
+  // 3 Years cleanly partitioned (2024 -> 2025 -> 2026)
   const milestoneRanges = [
-    { year: '2022', start: 0.46, end: 0.50, index: 0 },
-    { year: '2023', start: 0.50, end: 0.54, index: 1 },
-    { year: '2024', start: 0.54, end: 0.58, index: 2 },
-    { year: '2025', start: 0.58, end: 0.62, index: 3 },
-    { year: '2026', start: 0.62, end: 0.66, index: 4 },
+    { year: '2024', start: 0.40, end: 0.47, index: 0 },
+    { year: '2025', start: 0.47, end: 0.54, index: 1 },
+    { year: '2026', start: 0.54, end: 0.61, index: 2 },
   ];
 
   const px = mousePos.x * 15;
   const py = mousePos.y * 10;
 
   // Dial Rotation
-  const localProg = Math.max(0, Math.min(1, (progress - 0.46) / 0.24));
+  const localProg = Math.max(0, Math.min(1, (progress - 0.40) / 0.24));
   const dialRotation = localProg * 360;
 
   // Scene overall opacity based on entry and exit
   let sceneOpacity = 0;
-  if (progress >= 0.46 && progress < 0.48) {
-    sceneOpacity = (progress - 0.46) / 0.02;
-  } else if (progress >= 0.48 && progress <= 0.68) {
+  if (progress >= 0.40 && progress < 0.42) {
+    sceneOpacity = (progress - 0.40) / 0.02;
+  } else if (progress >= 0.42 && progress <= 0.62) {
     sceneOpacity = 1;
-  } else if (progress > 0.68 && progress <= 0.70) {
-    sceneOpacity = Math.max(0, 1 - (progress - 0.68) / 0.02);
+  } else if (progress > 0.62 && progress <= 0.64) {
+    sceneOpacity = Math.max(0, 1 - (progress - 0.62) / 0.02);
   }
 
-  // Narrative Bridge active 0.66 to 0.70
-  const isNarrativeActive = progress >= 0.66;
+  // Narrative Bridge active 0.59 to 0.64
+  const isNarrativeActive = progress >= 0.59;
   let narrativeOpacity = 0;
-  if (progress >= 0.66 && progress < 0.675) {
-    narrativeOpacity = (progress - 0.66) / 0.015;
-  } else if (progress >= 0.675 && progress <= 0.69) {
+  if (progress >= 0.59 && progress < 0.605) {
+    narrativeOpacity = (progress - 0.59) / 0.015;
+  } else if (progress >= 0.605 && progress <= 0.63) {
     narrativeOpacity = 1;
-  } else if (progress > 0.69 && progress <= 0.70) {
-    narrativeOpacity = Math.max(0, 1 - (progress - 0.69) / 0.01);
+  } else if (progress > 0.63 && progress <= 0.64) {
+    narrativeOpacity = Math.max(0, 1 - (progress - 0.63) / 0.01);
   }
 
   // Find currently active milestone cleanly
@@ -80,13 +79,13 @@ export function JourneyFilm({ progress, mousePos }) {
         </div>
         <div className="chrono-telemetry">
           <Clock size={12} className="text-accent" />
-          <span>TEMPORAL MATRIX: 2022 — 2026</span>
+          <span>CHRONOLOGICAL TIMELINE: 2024 — 2026</span>
           <span className="hud-divider">·</span>
-          <span>SRMIST × SAINT-GOBAIN</span>
+          <span>STAGE [0{activeMilestoneObj.index + 1} / 03]</span>
         </div>
       </div>
 
-      {/* GIANT MECHANICAL CLOCK / CHRONO DIAL STRUCTURE */}
+      {/* MECHANICAL CLOCK / CHRONO DIAL STRUCTURE (3 Years: 2024, 2025, 2026) */}
       <div 
         className="chrono-mechanical-rig"
         style={{
@@ -116,7 +115,7 @@ export function JourneyFilm({ progress, mousePos }) {
 
         <div className="chrono-dial-ticks">
           {milestoneRanges.map((m, idx) => {
-            const angle = (idx / 5) * 360 - 90;
+            const angle = (idx / 3) * 360 - 90;
             const isPassed = progress >= m.start;
             return (
               <div 
@@ -134,7 +133,7 @@ export function JourneyFilm({ progress, mousePos }) {
         </div>
       </div>
 
-      {/* SINGLE DOMINANT YEAR IN 3D DEPTH (No text overlap) */}
+      {/* SINGLE DOMINANT YEAR IN 3D DEPTH (2024 -> 2025 -> 2026) */}
       {!isNarrativeActive && activeMilestone && (
         <div 
           className="journey-spatial-years-container"
@@ -151,14 +150,30 @@ export function JourneyFilm({ progress, mousePos }) {
             }}
           >
             <div className="monolith-year-header">
-              <span className="monolith-phase-tag">{activeMilestone.phase}</span>
+              <div className="monolith-phase-wrap">
+                <span className="monolith-phase-tag">{activeMilestone.phase}</span>
+                <span className="monolith-stage-badge">0{activeMilestoneObj.index + 1} / 03</span>
+              </div>
               <h2 className="monolith-year-number">{activeMilestone.year}</h2>
             </div>
 
             <div className="monolith-body">
               <div className="monolith-divider-line" />
               <h3 className="monolith-title">{activeMilestone.title}</h3>
+              <span className="monolith-loc-txt text-accent">{activeMilestone.location}</span>
               <p className="monolith-desc">{activeMilestone.description}</p>
+
+              {/* Verified Highlights */}
+              {activeMilestone.highlights && (
+                <ul className="monolith-highlights-list">
+                  {activeMilestone.highlights.slice(0, 3).map((item, hIdx) => (
+                    <li key={hIdx} className="monolith-highlight-item">
+                      <span className="highlight-bullet" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
 
               <div className="monolith-tags">
                 {activeMilestone.technologies?.map((tag) => (
@@ -182,36 +197,39 @@ export function JourneyFilm({ progress, mousePos }) {
           <div className="narrative-inner-card">
             <div className="narrative-eyebrow">
               <Sparkles size={12} className="text-accent" />
-              <span>ENGINEERING PHILOSOPHY</span>
+              <span>PROGRESSION TRAJECTORY</span>
             </div>
 
             <blockquote className="narrative-quote">
-              "I build at the intersection of connected systems, intelligent software and backend engineering."
+              "Building strong foundations, converting concepts into scalable software, and applying engineering in real-world systems."
             </blockquote>
 
             <div className="narrative-pillars-row">
               <div className="narrative-pillar-chip">
-                <span className="pillar-num">01</span>
-                <strong>AI & MACHINE LEARNING</strong>
+                <span className="pillar-num">2024</span>
+                <strong>FOUNDATION</strong>
+                <span className="pillar-sub">Core CS · IoT · Problem Solving</span>
               </div>
               <div className="narrative-pillar-chip">
-                <span className="pillar-num">02</span>
-                <strong>BACKEND ENGINEERING</strong>
+                <span className="pillar-num">2025</span>
+                <strong>BUILDING</strong>
+                <span className="pillar-sub">DSA · Backends · ML & Projects</span>
               </div>
               <div className="narrative-pillar-chip">
-                <span className="pillar-num">03</span>
-                <strong>IoT & SENSOR SYSTEMS</strong>
+                <span className="pillar-num">2026</span>
+                <strong>INDUSTRY</strong>
+                <span className="pillar-sub">Saint-Gobain · Production APIs</span>
               </div>
             </div>
 
             <div className="narrative-credentials-row">
               <div className="cred-item">
-                <span className="cred-lbl">ACADEMIC EXCELLENCE</span>
-                <strong className="cred-val">SRMIST — 9.36 / 10 CGPA</strong>
+                <span className="cred-lbl">ACADEMIC FOUNDATION</span>
+                <strong className="cred-val">{profileData.institutionShort} — {profileData.cgpa} CGPA</strong>
               </div>
               <div className="cred-item">
                 <span className="cred-lbl">INDUSTRY PRACTICUM</span>
-                <strong className="cred-val">Saint-Gobain Internship</strong>
+                <strong className="cred-val">{profileData.experience.company} Internship</strong>
               </div>
             </div>
           </div>

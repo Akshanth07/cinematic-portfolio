@@ -5,6 +5,7 @@ import { HeroFilm } from './HeroFilm';
 import { TechFilm } from './TechFilm';
 import { JourneyFilm } from './JourneyFilm';
 import { ProjectsFilm } from './ProjectsFilm';
+import { TerminalFilm } from './TerminalFilm';
 import { FinaleFilm } from './FinaleFilm';
 import { CustomCursor } from '../UI/CustomCursor';
 import { LoadingScreen } from '../UI/LoadingScreen';
@@ -13,6 +14,7 @@ export function FilmEngine() {
   const [scrollProgress, setScrollProgress] = useState(0);
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [isLoading, setIsLoading] = useState(true);
+  const [modalProject, setModalProject] = useState(null);
   const lenisRef = useRef(null);
   const trackRef = useRef(null);
 
@@ -75,27 +77,31 @@ export function FilmEngine() {
   // Determine active chapter for minimal HUD
   let currentChapterName = '01 HERO';
   let activeChapterIdx = 0;
-  if (scrollProgress >= 0.92) {
-    currentChapterName = '05 FINALE';
+  if (scrollProgress >= 0.94) {
+    currentChapterName = '06 FINALE';
+    activeChapterIdx = 5;
+  } else if (scrollProgress >= 0.82) {
+    currentChapterName = '05 TERMINAL';
     activeChapterIdx = 4;
-  } else if (scrollProgress >= 0.70) {
+  } else if (scrollProgress >= 0.62) {
     currentChapterName = '04 PROJECTS';
     activeChapterIdx = 3;
-  } else if (scrollProgress >= 0.46) {
+  } else if (scrollProgress >= 0.40) {
     currentChapterName = '03 CHRONO';
     activeChapterIdx = 2;
-  } else if (scrollProgress >= 0.20) {
+  } else if (scrollProgress >= 0.18) {
     currentChapterName = '02 TECH';
     activeChapterIdx = 1;
   }
 
-  // Paced chapter jump targets
+  // Paced chapter jump targets (6 Chapters)
   const chapters = [
     { label: '01 HERO', prog: 0.0 },
-    { label: '02 TECH', prog: 0.26 },
-    { label: '03 CHRONO', prog: 0.50 },
-    { label: '04 PROJECTS', prog: 0.75 },
-    { label: '05 FINALE', prog: 0.96 },
+    { label: '02 TECH', prog: 0.20 },
+    { label: '03 CHRONO', prog: 0.42 },
+    { label: '04 PROJECTS', prog: 0.64 },
+    { label: '05 TERMINAL', prog: 0.84 },
+    { label: '06 FINALE', prog: 0.96 },
   ];
 
   const isNavVisible = !isLoading;
@@ -114,19 +120,32 @@ export function FilmEngine() {
 
       {/* Synchronized Spatial Chapter Layers (Fixed 100vh stage) */}
       <div className="film-stage-viewport">
-        {/* Chapter 01: Hero Opening Film (0.00 – 0.24) */}
+        {/* Chapter 01: Hero Opening Film (0.00 – 0.22) */}
         <HeroFilm progress={scrollProgress} mousePos={mousePos} />
 
-        {/* Chapter 02: Spatial Tech World (0.20 – 0.52) */}
+        {/* Chapter 02: Spatial Tech World (0.18 – 0.42) */}
         <TechFilm progress={scrollProgress} mousePos={mousePos} />
 
-        {/* Chapter 03: Chrono Time Machine (0.48 – 0.75) */}
+        {/* Chapter 03: Chrono Time Machine (0.40 – 0.64) */}
         <JourneyFilm progress={scrollProgress} mousePos={mousePos} />
 
-        {/* Chapter 04: Spatial Project Universe (0.72 – 0.95) */}
-        <ProjectsFilm progress={scrollProgress} mousePos={mousePos} />
+        {/* Chapter 04: Spatial Project Universe (0.62 – 0.84) */}
+        <ProjectsFilm 
+          progress={scrollProgress} 
+          mousePos={mousePos}
+          modalProject={modalProject}
+          onOpenModal={setModalProject}
+          onCloseModal={() => setModalProject(null)}
+        />
 
-        {/* Chapter 05: Finale & Transmission (0.92 – 1.00) */}
+        {/* Chapter 05: Developer Console / Terminal (0.82 – 0.95) */}
+        <TerminalFilm 
+          progress={scrollProgress} 
+          mousePos={mousePos}
+          onOpenProject={(proj) => setModalProject(proj)}
+        />
+
+        {/* Chapter 06: Finale & Transmission (0.94 – 1.00) */}
         <FinaleFilm progress={scrollProgress} mousePos={mousePos} />
       </div>
 

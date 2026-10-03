@@ -1,21 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Github, ArrowUpRight, CheckCircle2, X, Terminal, ArrowRight } from 'lucide-react';
 import { projects } from '../../data/projects';
 import { ProjectCardVisual } from '../Projects/ProjectCardVisual';
 
-export function ProjectsFilm({ progress, mousePos }) {
-  const [inspectedProject, setInspectedProject] = useState(null);
+export function ProjectsFilm({ progress, mousePos, modalProject, onOpenModal, onCloseModal }) {
+  const [internalInspected, setInternalInspected] = useState(null);
 
-  // Scene 04 active range: 0.70 to 0.92
-  const isActive = progress >= 0.70 && progress < 0.92;
+  const inspectedProject = modalProject || internalInspected;
+  const setInspectedProject = (proj) => {
+    if (onOpenModal && onCloseModal) {
+      if (proj) onOpenModal(proj);
+      else onCloseModal();
+    } else {
+      setInternalInspected(proj);
+    }
+  };
 
-  // 5 Projects cleanly partitioned
+  // Scene 04 active range: 0.62 to 0.84
+  const isActive = progress >= 0.62 && progress < 0.84;
+
+  // 4 Verified Projects cleanly partitioned
   const projectRanges = [
-    { id: 'curatrack', start: 0.70, end: 0.744, index: 0 },
-    { id: 'safetysense', start: 0.744, end: 0.788, index: 1 },
-    { id: 'finbud', start: 0.788, end: 0.832, index: 2 },
-    { id: 'ecommerce', start: 0.832, end: 0.876, index: 3 },
-    { id: 'foodcourt', start: 0.876, end: 0.92, index: 4 },
+    { id: 'ecommerce', start: 0.62, end: 0.675, index: 0 },
+    { id: 'curatrack', start: 0.675, end: 0.73, index: 1 },
+    { id: 'safetysense', start: 0.73, end: 0.785, index: 2 },
+    { id: 'foodcourt', start: 0.785, end: 0.84, index: 3 },
   ];
 
   const px = mousePos.x * 15;
@@ -23,12 +32,12 @@ export function ProjectsFilm({ progress, mousePos }) {
 
   // Scene overall opacity based on entry and exit
   let sceneOpacity = 0;
-  if (progress >= 0.70 && progress < 0.72) {
-    sceneOpacity = (progress - 0.70) / 0.02;
-  } else if (progress >= 0.72 && progress <= 0.90) {
+  if (progress >= 0.62 && progress < 0.64) {
+    sceneOpacity = (progress - 0.62) / 0.02;
+  } else if (progress >= 0.64 && progress <= 0.82) {
     sceneOpacity = 1;
-  } else if (progress > 0.90 && progress <= 0.92) {
-    sceneOpacity = Math.max(0, 1 - (progress - 0.90) / 0.02);
+  } else if (progress > 0.82 && progress <= 0.84) {
+    sceneOpacity = Math.max(0, 1 - (progress - 0.82) / 0.02);
   }
 
   // Find currently active project cleanly
@@ -55,8 +64,8 @@ export function ProjectsFilm({ progress, mousePos }) {
       className="film-scene projects-film-scene"
       style={{
         opacity: sceneOpacity,
-        pointerEvents: isActive ? 'auto' : 'none',
-        visibility: isActive && sceneOpacity > 0 ? 'visible' : 'hidden',
+        pointerEvents: isActive ? 'auto' : (inspectedProject ? 'auto' : 'none'),
+        visibility: (isActive && sceneOpacity > 0) || inspectedProject ? 'visible' : 'hidden',
       }}
     >
       {/* Chapter HUD Indicator */}
@@ -70,7 +79,7 @@ export function ProjectsFilm({ progress, mousePos }) {
           <Terminal size={12} className="text-accent" />
           <span>VERIFIED GITHUB ARTIFACTS</span>
           <span className="hud-divider">·</span>
-          <span>STAGE [0{activeProjObj.index + 1} / 05]</span>
+          <span>STAGE [0{activeProjObj.index + 1} / 04]</span>
         </div>
       </div>
 

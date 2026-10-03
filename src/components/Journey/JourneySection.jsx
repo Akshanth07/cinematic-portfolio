@@ -10,7 +10,7 @@ export function JourneySection() {
   const [activeYearIndex, setActiveYearIndex] = useState(0);
 
   const totalMilestones = journeyMilestones.length;
-  const currentAngle = -50 + (activeYearIndex / (totalMilestones - 1)) * 100;
+  const currentAngle = -50 + (activeYearIndex / Math.max(1, totalMilestones - 1)) * 100;
 
   useEffect(() => {
     const ctx = gsap.context(() => {
@@ -57,7 +57,7 @@ export function JourneySection() {
   const selectMilestone = (index) => {
     setActiveYearIndex(index);
     if (clockHandRef.current) {
-      const angle = -55 + (index / (totalMilestones - 1)) * 110;
+      const angle = -55 + (index / Math.max(1, totalMilestones - 1)) * 110;
       gsap.to(clockHandRef.current, {
         rotate: angle,
         duration: 0.5,
@@ -83,7 +83,7 @@ export function JourneySection() {
       <div className="journey-telemetry-overlay">
         <div className="telemetry-coord">
           <Clock size={12} className="text-accent" />
-          <span>CHRONOLOGICAL TIMELINE: 2022 — 2026</span>
+          <span>CHRONOLOGICAL TIMELINE: 2024 — 2026</span>
         </div>
       </div>
 
@@ -174,6 +174,18 @@ export function JourneySection() {
 
                   <p className="milestone-short-desc">{m.description}</p>
 
+                  {/* Highlights if present */}
+                  {m.highlights && (
+                    <ul className="milestone-highlights-list" style={{ listStyle: 'none', padding: 0, margin: '10px 0', fontSize: '11px', color: 'rgba(255,255,255,0.75)' }}>
+                      {m.highlights.slice(0, 3).map((item, hIdx) => (
+                        <li key={hIdx} style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '4px' }}>
+                          <span style={{ width: '4px', height: '4px', borderRadius: '50%', background: 'var(--accent-red)' }} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+
                   {/* Technology Tags */}
                   <div className="milestone-tags-row">
                     {m.technologies.map((tag) => (
@@ -186,7 +198,7 @@ export function JourneySection() {
 
                 <div className="milestone-card-footer">
                   <span>MILESTONE</span>
-                  <span className="footer-index">0{index + 1} / 05</span>
+                  <span className="footer-index">0{index + 1} / 0{totalMilestones}</span>
                 </div>
               </div>
             );

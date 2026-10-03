@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Menu, X, ArrowUpRight } from 'lucide-react';
+import { profileData } from '../../data/profile';
 
 export function Navbar({ activeSection = 'hero' }) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,9 +18,9 @@ export function Navbar({ activeSection = 'hero' }) {
     { id: 'hero', label: '01 HERO', href: '#hero' },
     { id: 'tech', label: '02 TECH', href: '#tech' },
     { id: 'journey', label: '03 JOURNEY', href: '#journey' },
-    { id: 'about', label: 'ABOUT', href: '#about' },
     { id: 'projects', label: '04 WORK', href: '#projects' },
-    { id: 'contact', label: '05 CONTACT', href: '#contact' }
+    { id: 'terminal', label: '05 TERMINAL', href: '#terminal' },
+    { id: 'contact', label: '06 CONTACT', href: '#contact' }
   ];
 
   const handleNavClick = (e, href) => {
@@ -37,8 +38,8 @@ export function Navbar({ activeSection = 'hero' }) {
         <div className="nav-container">
           <a href="#hero" className="nav-brand" onClick={(e) => handleNavClick(e, '#hero')}>
             <span className="brand-dot" />
-            <span className="brand-text">AKSHANTH N</span>
-            <span className="brand-badge">SRMIST</span>
+            <span className="brand-text">{profileData.name.toUpperCase()}</span>
+            <span className="brand-badge">{profileData.institutionShort}</span>
           </a>
 
           <nav className="nav-desktop" aria-label="Main Navigation">
@@ -57,7 +58,7 @@ export function Navbar({ activeSection = 'hero' }) {
 
           <div className="nav-actions">
             <a
-              href="https://github.com/Akshanth07"
+              href={profileData.socials.github}
               target="_blank"
               rel="noopener noreferrer"
               className="nav-cta-btn"
@@ -84,7 +85,7 @@ export function Navbar({ activeSection = 'hero' }) {
         <div className="mobile-nav-backdrop" onClick={() => setIsMobileMenuOpen(false)} />
         <div className="mobile-nav-menu">
           <div className="mobile-nav-header">
-            <div className="mobile-nav-title">AKSHANTH N</div>
+            <div className="mobile-nav-title">{profileData.name.toUpperCase()}</div>
             <div className="mobile-nav-tag">PORTFOLIO — 2026</div>
           </div>
 
@@ -105,13 +106,13 @@ export function Navbar({ activeSection = 'hero' }) {
 
           <div className="mobile-nav-footer">
             <div className="mobile-footer-meta">
-              <p>B.Tech CSE (IoT) · SRMIST</p>
-              <p>AI · Backend · IoT Developer</p>
+              <p>{profileData.degree} · {profileData.institutionShort}</p>
+              <p>{profileData.roleDisplay} Developer</p>
             </div>
             <div className="mobile-footer-links">
-              <a href="https://github.com/Akshanth07" target="_blank" rel="noreferrer">GitHub</a>
-              <a href="https://www.linkedin.com/in/akshanth-n-524a87258/" target="_blank" rel="noreferrer">LinkedIn</a>
-              <a href="mailto:akshanth2004@gmail.com">Email</a>
+              <a href={profileData.socials.github} target="_blank" rel="noreferrer">GitHub</a>
+              <a href={profileData.socials.linkedin} target="_blank" rel="noreferrer">LinkedIn</a>
+              <a href={profileData.socials.email}>Email</a>
             </div>
           </div>
         </div>

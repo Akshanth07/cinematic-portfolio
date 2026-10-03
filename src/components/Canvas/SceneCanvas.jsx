@@ -194,7 +194,16 @@ export function SceneCanvas({ scrollProgress = 0, mousePos = { x: 0, y: 0 } }) {
     scene.add(galleryGroup);
 
     // ==========================================
-    // 5. AMBIENT VOLUMETRIC RED RIM LIGHTS
+    // 5. SCENE 05: TERMINAL HOLOGRAPHIC GRID
+    // ==========================================
+    const terminalGrid = new THREE.GridHelper(300, 20, 0xff3344, 0x331118);
+    terminalGrid.position.set(0, -70, -2050);
+    terminalGrid.material.opacity = 0.18;
+    terminalGrid.material.transparent = true;
+    scene.add(terminalGrid);
+
+    // ==========================================
+    // 6. AMBIENT VOLUMETRIC RED RIM LIGHTS
     // ==========================================
     const ambientGlowGeo = new THREE.SphereGeometry(65, 16, 16);
     const ambientGlowMat = new THREE.MeshBasicMaterial({
@@ -264,6 +273,9 @@ export function SceneCanvas({ scrollProgress = 0, mousePos = { x: 0, y: 0 } }) {
       chronoRing1.rotation.z = elapsedTime * 0.2 + p * 3;
       chronoRing2.rotation.z = -elapsedTime * 0.15 - p * 2.5;
       chronoRing3.rotation.z = elapsedTime * 0.1 + p * 3.5;
+
+      // Subtle pulse on terminal grid
+      terminalGrid.rotation.y = elapsedTime * 0.05;
 
       renderer.render(scene, camera);
     };
